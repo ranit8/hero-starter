@@ -42,6 +42,7 @@ var move = function(gameData/*Old*/, helpers){
   };
   var weakToStrong = function(t1,t2){return t1.health > t2.health};
   var getDirection = function(tile,msg){
+    /*
     if(window && window.console){
       console.log(helpers.asciiBoard(gameData));
       console.log(msg+'    myh:'+ (tile==myHero)+'    dir:'+(tile.direction)+'   dW:'+(tile.distanceToWell)+'   dM:'+(tile.distanceToMine));
@@ -51,6 +52,7 @@ var move = function(gameData/*Old*/, helpers){
         console.log('pos:'+pM.distanceFromTop+'|'+pM.distanceFromLeft+'   unsafe:'+pM.unsafe+'   mine:'+pM.distanceToMine+'   well:'+pM.distanceToWell+'   dir:'+pM.direction+'   copyH:'+pM.copyHealth);
       };
     };
+    */
     return tile.direction;
   };
   var unsafeMoves=[],safeMoves=[];
