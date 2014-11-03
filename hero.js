@@ -246,8 +246,8 @@ var move = function(gameData/*Old*/, helpers){
   };
 
   // randomize, and the first two sorts are tie-breaking
-  safeMoves.unshift( safeMoves.splice( Math.floor(safeMoves.length * Math.random) , 1)[0] );
-  safeMoves.unshift( safeMoves.splice( Math.floor(safeMoves.length * Math.random) , 1)[0] );
+  safeMoves.unshift( safeMoves.splice( Math.floor(safeMoves.length * Math.random()) , 1)[0] );
+  safeMoves.unshift( safeMoves.splice( Math.floor(safeMoves.length * Math.random()) , 1)[0] );
   safeMoves.sort(function(t1,t2){return t1.distanceToWell > t2.distanceToWell;});
   safeMoves.sort(function(t1,t2){return t1.distanceToMine > t2.distanceToMine;});
   if (myHero.health < 100) safeMoves.sort(function(t1,t2){return t1.distanceToWell > t2.distanceToWell;});
