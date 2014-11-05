@@ -175,6 +175,7 @@ var move = function(gameData/*Old*/, helpers){
   if (myHero.potionNearby.length && myHero.health < 80)
     myHero.direction = myHero.potionNearby[0].direction;
   myHero.direction = myHero.direction || 'Stay';
+  var nearestEnemy = helpers.findNearestObjectDirectionAndDistance(board, possibleMoves[i], isEnemyAbove(myHero.health - 20), false);
   helpers.adjacentTiles(gameData, myHero, true); // rewrite correct directions to nearby tiles
 
   // one-hit KO!
@@ -248,9 +249,11 @@ var move = function(gameData/*Old*/, helpers){
   // randomize, and the first two sorts are tie-breaking
   safeMoves.unshift( safeMoves.splice( Math.floor(safeMoves.length * Math.random()) , 1)[0] );
   safeMoves.unshift( safeMoves.splice( Math.floor(safeMoves.length * Math.random()) , 1)[0] );
-  safeMoves.sort(function(t1,t2){return t1.distanceToWell > t2.distanceToWell;});
+  //safeMoves.sort(function(t1,t2){return t1.distanceToWell > t2.distanceToWell;});
   safeMoves.sort(function(t1,t2){return t1.distanceToMine > t2.distanceToMine;});
-  if (myHero.health < 100) safeMoves.sort(function(t1,t2){return t1.distanceToWell > t2.distanceToWell;});
+  if (myHero.health < 100 && nearestEnemy && nearestEnemy.distance < 2 * myHero.distanceToMine)
+    safeMoves.sort(function(t1,t2){return t1.distanceToWell > t2.distanceToWell;});
+  if ( (temp=safeMoves.filter(isGrave)) && temp.length > 0 ) return getDirection( temp[0],'Grave ROBBER');
   if ( (temp=safeMoves.filter(isGrave)) && temp.length > 0 ) return getDirection( temp[0],'Grave ROBBER');
   if (myHero.direction == 'Stay' && safeMoves[0] == myHero){
     for (var i=0; i < unsafeMoves.length; ++i){
