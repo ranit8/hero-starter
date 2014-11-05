@@ -255,7 +255,8 @@ var move = function(gameData/*Old*/, helpers){
   if (myHero.health < 100 && nearestEnemy && nearestEnemy.distance < 2 * myHero.distanceToMine)
     safeMoves.sort(function(t1,t2){return t1.distanceToWell > t2.distanceToWell;});
   if ( (temp=safeMoves.filter(isGrave)) && temp.length > 0 ) return getDirection( temp[0],'Grave ROBBER');
-  if ( (temp=safeMoves.filter(isGrave)) && temp.length > 0 ) return getDirection( temp[0],'Grave ROBBER');
+  if ( myHero.alliesNearby.length && myHero.alliesNearby[0].direction == myHero.direction)
+    return getDirection(myHero, 'Healer!');
   if (myHero.direction == 'Stay' && safeMoves[0] == myHero){
     for (var i=0; i < unsafeMoves.length; ++i){
       if (unsafeMoves.length && unsafeMoves[i].distanceToMine < myHero.distanceToMine && unsafeMoves[0].copyHealth != -100)
@@ -267,9 +268,12 @@ var move = function(gameData/*Old*/, helpers){
       return getDirection(safeMoves[0],'Locked: Nothing else to do');
     temp = 1 + Math.floor(Math.random()*(safeMoves.length - 1));
     return getDirection(safeMoves[temp],'random safeMoves, move around');
-  } else if (safeMoves[0] == myHero) {
+  } else if (safeMoves[0] == myHero/* && myHero.direction != 'Stay'*/) {
+    /*
     temp = Math.floor(Math.random()*(safeMoves.length));
     return getDirection(safeMoves[temp],'random safeMoves, hero not JUST staying');
+    */
+    return getDirection(myHero,'Hero staying but not JUST staying');
   } else {
     return getDirection(safeMoves[0],'safeMoves health or mine, whatever is closer');
   };
