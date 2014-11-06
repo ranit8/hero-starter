@@ -150,13 +150,11 @@ var move = function(gameData/*Old*/, helpers){
     possibleMoves[i].distanceToWell = temp ? temp.distance : 8*board.lengthOfSide;
     temp = helpers.findNearestObjectDirectionAndDistance(board, possibleMoves[i], isDiamondAbandoned, true);
     temp = temp || helpers.findNearestObjectDirectionAndDistance(board, possibleMoves[i], isDiamondEnemy, true);
-    // temp = temp || helpers.findNearestObjectDirectionAndDistance(board, possibleMoves[i], isDiamondEnemy, false);
     // Trap, resolves only by replacing myHero from board with new Unoccupied
-    temp = temp || helpers.findNearestObjectDirectionAndDistance(board, possibleMoves[i], isDiamondAnyone, true);
-    // temp = temp || helpers.findNearestObjectDirectionAndDistance(board, possibleMoves[i], isDiamondAnyone, false);
+//    temp = temp || helpers.findNearestObjectDirectionAndDistance(board, possibleMoves[i], isDiamondAnyone, true);
     temp = temp || helpers.findNearestObjectDirectionAndDistance(board, possibleMoves[i], isDiamondAbandoned, false);
     temp = temp || helpers.findNearestObjectDirectionAndDistance(board, possibleMoves[i], isDiamondEnemy, false);
-    temp = temp || helpers.findNearestObjectDirectionAndDistance(board, possibleMoves[i], isDiamondAnyone, false);
+//    temp = temp || helpers.findNearestObjectDirectionAndDistance(board, possibleMoves[i], isDiamondAnyone, false);
     temp = temp || helpers.findNearestObjectDirectionAndDistance(board, possibleMoves[i], isGrave, true);
     possibleMoves[i].distanceToMine = temp ? temp.distance : 8*board.lengthOfSide;
     temp = helpers.findNearestObjectDirectionAndDistance(board, possibleMoves[i], function(tile){
