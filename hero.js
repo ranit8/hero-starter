@@ -120,6 +120,7 @@ var move = function(gameData/*Old*/, helpers){
         };
       };
       pM.copyHealth -= 30 * (pM.attackedEnemies.length);
+      if (pM.copyHealth <= 0) break;
       for (var j=0; j < pM.attackedEnemies.length; ++j){
         pM.attackedEnemies[j].copyHealth -= 20;
       };
