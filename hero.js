@@ -47,10 +47,14 @@ var move = function(gameData/*Old*/, helpers){
       console.log(helpers.asciiBoard(gameData));
       console.log(msg+'    myh:'+ (tile==myHero)+'    dir:'+(tile.direction)+'   dW:'+(tile.distanceToWell)+'   dM:'+(tile.distanceToMine));
 
-      for(var i=0; i < possibleMoves.length; ++i){
+      for(var i=0; i < 5; ++i){
         var pM=possibleMoves[i];
+        if (pM===undefined){
+          console.log(i+'-,-');
+          continue;
+        };
         console.log('pos:'+pM.distanceFromTop+'|'+pM.distanceFromLeft+'   unsafe:'+pM.unsafe+'   mine:'+pM.distanceToMine+
-        '   well:'+pM.distanceToWell+'   dir:'+pM.direction+'   copyH:'+pM.copyHealth);
+        '   well:'+pM.distanceToWell+'   enmy:'+pM.distanceToLoneEnemy+'   dir:'+pM.direction+'   copyH:'+pM.copyHealth);
       };
     };
     */
@@ -60,6 +64,7 @@ var move = function(gameData/*Old*/, helpers){
   var temp;
 
   myHero.ringOne = helpers.adjacentTiles(gameData, myHero, true);
+  if (Math.random() < 0.5) myHero.ringOne.reverse(); // randomly reverse search
   myHero.ringTwo = helpers.ringTwoTiles(gameData, myHero);
   var possibleMoves = myHero.ringOne.filter(isUnoccupied).concat(myHero);
   var nearbyTiles = myHero.ringTwo.concat(myHero.ringOne, myHero);
@@ -143,6 +148,14 @@ var move = function(gameData/*Old*/, helpers){
     };
   };
 
+  for (var i = 0; i < possibleMoves.length; ++i){
+    var pM = possibleMoves[i];
+    if (pM.deathCount > 0) pM.deathCount -=
+      pM.twoAwayEnemies.filter(function(tile){
+        if (helpers.adjacentTiles(gameData, tile, false).filter(isHealthWell).length)
+          return true;
+      }).length;
+  };
   // fill distanceToMine and distanceToWell, safePath = true
   board.tiles[myHero.distanceFromTop][myHero.distanceFromLeft].type = 'Unoccupied';
   for ( var i=0; i < possibleMoves.length; ++i){
@@ -242,7 +255,7 @@ var move = function(gameData/*Old*/, helpers){
   // PERSEGUIR
   safeMoves.sort(function(t1,t2){return t1.distanceToLoneEnemy > t2.distanceToLoneEnemy;});
   for (var i=0; i < safeMoves.length; ++i){
-    if (safeMoves[i].distanceToLoneEnemy + 0 < safeMoves[i].distanceToMine)
+    if (safeMoves[i].distanceToLoneEnemy + 0 < safeMoves[i].distanceToMine && safeMoves[i].direction != 'Stay')
       return getDirection(safeMoves[i],'+ + + + PERSEGUIR + + + + +')
   };
 
