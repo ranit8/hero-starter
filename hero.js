@@ -112,6 +112,11 @@ var move = function(gameData/*Old*/, helpers){
     for (var j=0; j < pM.enemiesAbove20.length; ++j){
       pM.enemiesAbove20[j].copyHealth -= ((j==0 && myHero==pM) ? 30 : 20);
     };
+    if (pM.enemiesAbove20.length == 0 && myHero.health == 100) {
+      pM.unsafe = false;
+      safeMoves.push(pM);
+    continue; // possibleMoves, take risk if no near enemies
+    };
     while (pM.copyHealth > 0 && pM.attackedEnemies.length > 0){
       for(var j= pM.attackedEnemies.length - 1 ;  j >= 0  ; --j){
         if (pM.attackedEnemies[j].copyHealth <= 0) {
